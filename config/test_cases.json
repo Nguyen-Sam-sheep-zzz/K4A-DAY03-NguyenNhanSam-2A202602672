@@ -1,0 +1,37 @@
+[
+  {
+    "id": "TC01",
+    "type": "direct_query",
+    "question": "Quy trình tuyển dụng cho một vị trí thường gồm những bước nào?",
+    "expected_behavior": "Agent trả lời câu hỏi chung về quy trình tuyển dụng mà không gọi Tool.",
+    "complexity": "Low"
+  },
+  {
+    "id": "TC02",
+    "type": "single_tool_query",
+    "question": "Hãy tra cứu tiêu chí tuyển dụng vị trí Kỹ sư phần mềm.",
+    "expected_behavior": "Agent gọi Tool 'recruitment_criteria_query' với vị trí Kỹ sư phần mềm và trả về kỹ năng, kinh nghiệm tối thiểu.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC03",
+    "type": "appointment_booking",
+    "question": "Gửi thông báo lịch phỏng vấn vị trí Kỹ sư phần mềm cho Nguyễn Nhân Sâm qua email sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.",
+    "expected_behavior": "Agent gọi Tool 'send_interview_notification' với đủ thông tin ứng viên, vị trí, thời gian và người phỏng vấn.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC04",
+    "type": "multi_step_reasoning",
+    "question": "Nguyễn Nhân Sâm đã qua sàng lọc CV. Hãy tra cứu tiêu chí vị trí Kỹ sư phần mềm; nếu tiêu chí có Python, SQL và Git thì gửi thông báo lịch phỏng vấn cho Nguyễn Nhân Sâm qua sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.",
+    "expected_behavior": "Agent gọi 'recruitment_criteria_query', quan sát tiêu chí, sau đó gọi 'send_interview_notification' khi điều kiện kỹ năng được đáp ứng.",
+    "complexity": "High"
+  },
+  {
+    "id": "TC05",
+    "type": "edge_case_handling",
+    "question": "Hãy tra cứu tiêu chí tuyển dụng vị trí Chuyên viên Blockchain.",
+    "expected_behavior": "Agent nhận kết quả NOT_FOUND từ Tool và phản hồi lịch sự, không bịa đặt tiêu chí tuyển dụng.",
+    "complexity": "Medium"
+  }
+]

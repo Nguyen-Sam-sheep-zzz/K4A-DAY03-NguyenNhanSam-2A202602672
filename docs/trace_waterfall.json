@@ -1,29 +1,152 @@
 [
   {
     "step": 1,
-    "query": "Chào bạn, bạn có thể giới thiệu quy chế học vụ cơ bản của Đại học VinUni không?",
+    "query": "Quy trình tuyển dụng cho một vị trí thường gồm những bước nào?",
     "action_type": "FINAL_ANSWER",
-    "thought": "Câu hỏi chung về quy chế học vụ, trả lời trực tiếp không cần gọi Tool.",
-    "output": "[Mock Agent Response]: Xin chào! Quy chế học vụ VinUni yêu cầu sinh viên tích lũy tối thiểu 120 tín chỉ và duy trì GPA trên 2.0 để tốt nghiệp.",
-    "latency_ms": 2845.93
+    "thought": "Gemini phản hồi trực tiếp bằng văn bản (không cần gọi công cụ).",
+    "output": "Tuyển dụng thường gồm các bước: đăng tuyển, sàng lọc hồ sơ, phỏng vấn (có thể nhiều vòng), kiểm tra năng lực (nếu có), đề nghị làm việc và nhận việc.",
+    "latency_ms": 3045.47
   },
   {
     "step": 1,
-    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "query": "Hãy tra cứu tiêu chí tuyển dụng vị trí Kỹ sư phần mềm.",
     "action_type": "TOOL_EXECUTION",
-    "tool_name": "academic_query",
+    "tool_name": "recruitment_criteria_query",
     "arguments": {
-      "student_id": "SV2026001"
+      "position": "Kỹ sư phần mềm"
     },
-    "observation": {},
-    "latency_ms": 799.12
+    "observation": {
+      "status": "SUCCESS",
+      "position": "Kỹ sư phần mềm",
+      "criteria": {
+        "title": "Kỹ sư phần mềm",
+        "skills": [
+          "Python",
+          "SQL",
+          "Git"
+        ],
+        "experience_years": 2,
+        "education": "Đại học CNTT"
+      }
+    },
+    "latency_ms": 2289.41
   },
   {
     "step": 2,
-    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "query": "Hãy tra cứu tiêu chí tuyển dụng vị trí Kỹ sư phần mềm.",
     "action_type": "FINAL_ANSWER",
-    "thought": "Tổng hợp kết quả từ MCP Server thành công.",
-    "output": "Chưa thể trả lời chi tiết do chưa nhận được dữ liệu từ MCP Server (hãy hoàn thành TODO 2.1).",
-    "latency_ms": 10.0
+    "thought": "Gemini phản hồi trực tiếp bằng văn bản (không cần gọi công cụ).",
+    "output": "Tuyệt vời! Dưới đây là tiêu chí tuyển dụng cho vị trí Kỹ sư phần mềm:\n\n*   **Vị trí:** Kỹ sư phần mềm\n*   **Kỹ năng yêu cầu:** Python, SQL, Git\n*   **Kinh nghiệm tối thiểu:** 2 năm\n*   **Học vấn:** Tốt nghiệp Đại học CNTT",
+    "latency_ms": 2325.34
+  },
+  {
+    "step": 1,
+    "query": "Gửi thông báo lịch phỏng vấn vị trí Kỹ sư phần mềm cho Nguyễn Nhân Sâm qua email sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "send_interview_notification",
+    "arguments": {
+      "datetime_str": "14:00 ngày 15/09/2026",
+      "candidate_name": "Nguyễn Nhân Sâm",
+      "candidate_email": "sam.nguyen@example.com",
+      "interviewer": "Trần Minh Anh",
+      "position": "Kỹ sư phần mềm"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "notification_id": "INT-SAM.NGUYEN-99",
+      "candidate_name": "Nguyễn Nhân Sâm",
+      "candidate_email": "sam.nguyen@example.com",
+      "position": "Kỹ sư phần mềm",
+      "datetime": "14:00 ngày 15/09/2026",
+      "interviewer": "Trần Minh Anh",
+      "message": "Đã tạo thông báo phỏng vấn vị trí Kỹ sư phần mềm cho Nguyễn Nhân Sâm vào 14:00 ngày 15/09/2026."
+    },
+    "latency_ms": 2535.64
+  },
+  {
+    "step": 2,
+    "query": "Gửi thông báo lịch phỏng vấn vị trí Kỹ sư phần mềm cho Nguyễn Nhân Sâm qua email sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Thông báo đã được tạo thành công qua MCP Server.",
+    "output": "Đã tạo thông báo phỏng vấn vị trí Kỹ sư phần mềm cho Nguyễn Nhân Sâm vào 14:00 ngày 15/09/2026.",
+    "latency_ms": 0.0
+  },
+  {
+    "step": 1,
+    "query": "Nguyễn Nhân Sâm đã qua sàng lọc CV. Hãy tra cứu tiêu chí vị trí Kỹ sư phần mềm; nếu tiêu chí có Python, SQL và Git thì gửi thông báo lịch phỏng vấn cho Nguyễn Nhân Sâm qua sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "recruitment_criteria_query",
+    "arguments": {
+      "position": "Kỹ sư phần mềm"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "position": "Kỹ sư phần mềm",
+      "criteria": {
+        "title": "Kỹ sư phần mềm",
+        "skills": [
+          "Python",
+          "SQL",
+          "Git"
+        ],
+        "experience_years": 2,
+        "education": "Đại học CNTT"
+      }
+    },
+    "latency_ms": 2514.69
+  },
+  {
+    "step": 2,
+    "query": "Nguyễn Nhân Sâm đã qua sàng lọc CV. Hãy tra cứu tiêu chí vị trí Kỹ sư phần mềm; nếu tiêu chí có Python, SQL và Git thì gửi thông báo lịch phỏng vấn cho Nguyễn Nhân Sâm qua sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "send_interview_notification",
+    "arguments": {
+      "candidate_email": "sam.nguyen@example.com",
+      "position": "Kỹ sư phần mềm",
+      "candidate_name": "Nguyễn Nhân Sâm",
+      "datetime_str": "14:00 ngày 15/09/2026",
+      "interviewer": "Trần Minh Anh"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "notification_id": "INT-SAM.NGUYEN-99",
+      "candidate_name": "Nguyễn Nhân Sâm",
+      "candidate_email": "sam.nguyen@example.com",
+      "position": "Kỹ sư phần mềm",
+      "datetime": "14:00 ngày 15/09/2026",
+      "interviewer": "Trần Minh Anh",
+      "message": "Đã tạo thông báo phỏng vấn vị trí Kỹ sư phần mềm cho Nguyễn Nhân Sâm vào 14:00 ngày 15/09/2026."
+    },
+    "latency_ms": 3203.15
+  },
+  {
+    "step": 3,
+    "query": "Nguyễn Nhân Sâm đã qua sàng lọc CV. Hãy tra cứu tiêu chí vị trí Kỹ sư phần mềm; nếu tiêu chí có Python, SQL và Git thì gửi thông báo lịch phỏng vấn cho Nguyễn Nhân Sâm qua sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Thông báo đã được tạo thành công qua MCP Server.",
+    "output": "Đã tạo thông báo phỏng vấn vị trí Kỹ sư phần mềm cho Nguyễn Nhân Sâm vào 14:00 ngày 15/09/2026.",
+    "latency_ms": 0.0
+  },
+  {
+    "step": 1,
+    "query": "Hãy tra cứu tiêu chí tuyển dụng vị trí Chuyên viên Blockchain.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "recruitment_criteria_query",
+    "arguments": {
+      "position": "Chuyên viên Blockchain"
+    },
+    "observation": {
+      "status": "NOT_FOUND",
+      "message": "Chưa có tiêu chí tuyển dụng cho vị trí 'Chuyên viên Blockchain'."
+    },
+    "latency_ms": 2161.17
+  },
+  {
+    "step": 2,
+    "query": "Hãy tra cứu tiêu chí tuyển dụng vị trí Chuyên viên Blockchain.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Gemini phản hồi trực tiếp bằng văn bản (không cần gọi công cụ).",
+    "output": "Hiện tại, tôi chưa tìm thấy tiêu chí tuyển dụng cho vị trí Chuyên viên Blockchain.",
+    "latency_ms": 2289.75
   }
 ]

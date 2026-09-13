@@ -36,27 +36,41 @@ class MockOfflineProvider(BaseLLMProvider):
 
     def generate_with_tools(self, prompt: str, tools_schema: List[Dict[str, Any]], system_prompt: str = "") -> Dict[str, Any]:
         prompt_lower = prompt.lower()
+
+        if "observation từ mcp" in prompt_lower:
+            if '"status": "not_found"' in prompt_lower:
+                return {
+                    "type": "text",
+                    "content": "Chưa có tiêu chí tuyển dụng cho vị trí được yêu cầu; tôi không thể tự suy đoán thêm.",
+                    "thought": "Observation cho biết không tìm thấy dữ liệu, nên tôi thông báo rõ và không bịa đặt."
+                }
+            return {
+                "type": "text",
+                "content": "Đã nhận được kết quả từ công cụ. Tôi tổng hợp kết quả dựa trên dữ liệu MCP và không bổ sung thông tin ngoài dữ liệu này.",
+                "thought": "Đã có Observation từ MCP, nên tôi trả lời cuối cùng thay vì gọi lại công cụ."
+            }
         
         # Mô phỏng nhận diện intent gọi Tool
-        if "sv2026001" in prompt_lower and "đặt lịch" in prompt_lower:
+        if "gửi thông báo" in prompt_lower or "lịch phỏng vấn" in prompt_lower:
             return {
                 "type": "tool_call",
-                "tool_name": "schedule_appointment",
-                "arguments": {"student_id": "SV2026001", "datetime_str": "14:00 15/09/2026", "advisor_name": "PGS.TS Nguyễn Văn A"},
-                "thought": "Người dùng yêu cầu đặt lịch hẹn tư vấn cho sinh viên SV2026001. Tôi sẽ gọi tool schedule_appointment."
+                "tool_name": "send_interview_notification",
+                "arguments": {"candidate_name": "Nguyễn Nhân Sâm", "candidate_email": "sam.nguyen@example.com", "position": "Kỹ sư phần mềm", "datetime_str": "14:00 15/09/2026", "interviewer": "Trần Minh Anh"},
+                "thought": "Người dùng yêu cầu gửi lịch phỏng vấn. Tôi sẽ gọi công cụ thông báo."
             }
-        elif "sv2026001" in prompt_lower or "tra cứu" in prompt_lower:
+        elif "tiêu chí" in prompt_lower or "tuyển dụng" in prompt_lower or "vị trí" in prompt_lower:
+            position = "Chuyên viên Blockchain" if "blockchain" in prompt_lower else "Kỹ sư phần mềm"
             return {
                 "type": "tool_call",
-                "tool_name": "academic_query",
-                "arguments": {"student_id": "SV2026001"},
-                "thought": "Người dùng muốn tra cứu thông tin học vụ của sinh viên SV2026001. Tôi sẽ gọi tool academic_query."
+                "tool_name": "recruitment_criteria_query",
+                "arguments": {"position": position},
+                "thought": "Người dùng muốn tra cứu tiêu chí vị trí. Tôi sẽ gọi công cụ tra cứu tuyển dụng."
             }
         else:
             return {
                 "type": "text",
-                "content": f"[Mock Agent Response]: Xin chào! Quy chế học vụ VinUni yêu cầu sinh viên tích lũy tối thiểu 120 tín chỉ và duy trì GPA trên 2.0 để tốt nghiệp.",
-                "thought": "Câu hỏi chung về quy chế học vụ, trả lời trực tiếp không cần gọi Tool."
+                "content": "[Mock Agent Response]: Quy trình tuyển dụng thường gồm đăng tin, sàng lọc CV, phỏng vấn, kiểm tra tham chiếu và gửi đề nghị.",
+                "thought": "Câu hỏi chung về tuyển dụng, trả lời trực tiếp không cần gọi Tool."
             }
 
 

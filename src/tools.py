@@ -11,41 +11,38 @@ from typing import Dict, Any
 # ==============================================================================
 
 TOOLS_SCHEMA = [
-    # Tool 1: Đã được định nghĩa mẫu sẵn cho Học viên tham khảo
+    # Tool 1: Tra cứu tiêu chí tuyển dụng theo vị trí.
     {
-        "name": "academic_query",
-        "description": "Tra cứu hồ sơ và thông tin học vụ của sinh viên VinUni bằng mã sinh viên.",
+        "name": "recruitment_criteria_query",
+        "description": "Tra cứu tiêu chí tuyển dụng, kỹ năng và kinh nghiệm tối thiểu của một vị trí.",
         "parameters": {
             "type": "object",
             "properties": {
-                "student_id": {
+                "position": {
                     "type": "string",
-                    "description": "Mã sinh viên cần tra cứu (ví dụ: 'SV2026001')"
+                    "description": "Tên vị trí cần tra cứu, ví dụ: Kỹ sư phần mềm"
                 }
             },
-            "required": ["student_id"]
+            "required": ["position"]
         }
     },
     
     # --------------------------------------------------------------------------
-    # TODO 1.2: HỌC VIÊN HOÀN THIỆN TOOL SCHEMA CHO 'schedule_appointment'
-    # 🎯 YÊU CẦU THIẾT KẾ SCHEMA (JSON SCHEMA STANDARD):
-    # 1. Tool dùng để đặt lịch hẹn tư vấn học vụ với Cố vấn học tập VinUni.
-    # 2. Thiết kế các tham số (properties) để LLM trích xuất:
-    #    - student_id (string): Mã sinh viên cần đặt lịch (ví dụ: 'SV2026001')
-    #    - datetime_str (string): Thời gian hẹn (ví dụ: '14:00 15/09/2026')
-    #    - advisor_name (string): Tên cố vấn học tập
-    # 3. Khai báo danh sách các trường bắt buộc (required).
+    # Tool 2: Gửi thông báo lịch phỏng vấn.
     # --------------------------------------------------------------------------
     {
-        "name": "schedule_appointment",
-        "description": "Đặt lịch hẹn tư vấn học vụ với Cố vấn học tập VinUni.",
+        "name": "send_interview_notification",
+        "description": "Gửi thông báo lịch phỏng vấn cho ứng viên qua email.",
         "parameters": {
             "type": "object",
             "properties": {
-                # TODO 1.2: Khai báo các thuộc tính tham số cho Tool tại đây...
+                "candidate_name": {"type": "string", "description": "Họ tên ứng viên"},
+                "candidate_email": {"type": "string", "description": "Email ứng viên"},
+                "position": {"type": "string", "description": "Vị trí tuyển dụng"},
+                "datetime_str": {"type": "string", "description": "Thời gian phỏng vấn"},
+                "interviewer": {"type": "string", "description": "Tên người phỏng vấn"}
             },
-            "required": [] # TODO 1.2: Khai báo danh sách các trường bắt buộc tại đây...
+            "required": ["candidate_name", "candidate_email", "position", "datetime_str", "interviewer"]
         }
     }
 ]
@@ -55,57 +52,48 @@ TOOLS_SCHEMA = [
 # ==============================================================================
 
 MOCK_DATABASE = {
-    "SV2026001": {
-        "full_name": "Nguyễn Văn An",
-        "class": "AI-K4",
-        "gpa": 3.85,
-        "email": "an.nv@vinuni.edu.vn",
-        "status": "Đang học",
-        "advisor": "PGS.TS Nguyễn Văn A"
-    },
-    "SV2026002": {
-        "full_name": "Trần Thị Bình",
-        "class": "AI-K4",
-        "gpa": 3.60,
-        "email": "binh.tt@vinuni.edu.vn",
-        "status": "Đang học",
-        "advisor": "TS. Lê Thị B"
-    }
+    "kỹ sư phần mềm": {"title": "Kỹ sư phần mềm", "skills": ["Python", "SQL", "Git"], "experience_years": 2, "education": "Đại học CNTT"},
+    "ky su phan mem": {"title": "Kỹ sư phần mềm", "skills": ["Python", "SQL", "Git"], "experience_years": 2, "education": "Đại học CNTT"},
+    "data analyst": {"title": "Data Analyst", "skills": ["SQL", "Excel", "Power BI"], "experience_years": 1, "education": "Kinh tế, CNTT hoặc tương đương"},
+    "chuyên viên phân tích dữ liệu": {"title": "Data Analyst", "skills": ["SQL", "Excel", "Power BI"], "experience_years": 1, "education": "Kinh tế, CNTT hoặc tương đương"}
 }
 
 
-def execute_academic_query(student_id: str) -> str:
-    """Thực thi tra cứu học vụ theo mã sinh viên"""
-    student = MOCK_DATABASE.get(student_id.strip().upper())
-    if student:
+def execute_recruitment_criteria_query(position: str) -> str:
+    """Tra cứu tiêu chí tuyển dụng theo vị trí."""
+    key = position.strip().lower()
+    criteria = MOCK_DATABASE.get(key)
+    if criteria:
         return json.dumps({
             "status": "SUCCESS",
-            "student_id": student_id,
-            "data": student
+            "position": position,
+            "criteria": criteria
         }, ensure_ascii=False)
     else:
         return json.dumps({
             "status": "NOT_FOUND",
-            "message": f"Không tìm thấy dữ liệu sinh viên có mã '{student_id}'"
+            "message": f"Chưa có tiêu chí tuyển dụng cho vị trí '{position}'."
         }, ensure_ascii=False)
 
 
-def execute_schedule_appointment(student_id: str, datetime_str: str, advisor_name: str = "PGS.TS Nguyễn Văn A") -> str:
-    """Thực thi đặt lịch hẹn tư vấn học vụ"""
+def execute_send_interview_notification(candidate_name: str, candidate_email: str, position: str, datetime_str: str, interviewer: str) -> str:
+    """Tạo bản ghi gửi thông báo lịch phỏng vấn."""
     return json.dumps({
         "status": "SUCCESS",
-        "booking_id": f"BK-{student_id}-99",
-        "student_id": student_id,
+        "notification_id": f"INT-{candidate_email.split('@')[0].upper()}-99",
+        "candidate_name": candidate_name,
+        "candidate_email": candidate_email,
+        "position": position,
         "datetime": datetime_str,
-        "advisor": advisor_name,
-        "message": f"Đặt lịch thành công cho sinh viên {student_id} với {advisor_name} vào lúc {datetime_str}."
+        "interviewer": interviewer,
+        "message": f"Đã tạo thông báo phỏng vấn vị trí {position} cho {candidate_name} vào {datetime_str}."
     }, ensure_ascii=False)
 
 
 # Router gọi tool thực tế
 TOOL_ROUTER = {
-    "academic_query": execute_academic_query,
-    "schedule_appointment": execute_schedule_appointment
+    "recruitment_criteria_query": execute_recruitment_criteria_query,
+    "send_interview_notification": execute_send_interview_notification
 }
 
 def dispatch_tool_call(tool_name: str, arguments: Dict[str, Any]) -> str:

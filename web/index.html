@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TalentFlow | Trợ lý tuyển dụng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>TalentFlow</span></div><div class="status"><span class="status-dot"></span><span id="provider">Đang kiểm tra LLM</span></div></header>
+  <main class="shell">
+    <section class="hero"><div><p class="eyebrow">RECRUITMENT COPILOT · MCP + REACT</p><h1>Tuyển đúng người,<br><em>nhanh hơn.</em></h1><p class="lede">Tra cứu tiêu chí tuyển dụng và gửi lịch phỏng vấn bằng một cuộc trò chuyện tự nhiên.</p></div><div class="hero-card"><span class="hero-icon">◎</span><strong>Agent đang sẵn sàng</strong><span>2 công cụ · trace đầy đủ</span></div></section>
+    <section class="workspace">
+      <div class="panel chat-panel"><div class="panel-head"><div><span class="section-kicker">01 / ASSISTANT</span><h2>Trợ lý tuyển dụng</h2></div><button id="clearBtn" class="ghost-btn">Xóa hội thoại</button></div>
+        <div id="messages" class="messages"><div class="message bot"><div class="avatar">✦</div><div><p>Xin chào! Tôi có thể tra cứu tiêu chí vị trí hoặc gửi thông báo lịch phỏng vấn.</p><div class="chips"><button data-prompt="Tra cứu tiêu chí tuyển dụng vị trí Kỹ sư phần mềm">Tra cứu tiêu chí</button><button data-prompt="Gửi thông báo lịch phỏng vấn cho Nguyễn Nhân Sâm qua email sam.nguyen@example.com lúc 14:00 ngày 15/09/2026, người phỏng vấn là Trần Minh Anh.">Gửi lịch phỏng vấn</button></div></div></div></div>
+        <form id="chatForm" class="composer"><input id="prompt" autocomplete="off" placeholder="Ví dụ: Tra cứu tiêu chí vị trí Data Analyst..." required><button aria-label="Gửi">➜</button></form>
+      </div>
+      <aside class="panel insight-panel"><div class="panel-head"><div><span class="section-kicker">02 / LIVE TRACE</span><h2>Waterfall trace</h2></div><span id="traceCount" class="count">0 bước</span></div><div id="trace" class="trace empty">Chưa có hoạt động. Hãy gửi một yêu cầu để xem Agent suy luận và gọi Tool.</div><div class="tool-list"><div class="tool-row"><span class="tool-symbol">⌕</span><div><strong>Tra cứu tiêu chí</strong><small>recruitment_criteria_query</small></div></div><div class="tool-row"><span class="tool-symbol">↗</span><div><strong>Gửi thông báo lịch</strong><small>send_interview_notification</small></div></div></div></aside>
+    </section>
+  </main>
+  <footer>TalentFlow · Nguyễn Nhân Sâm · 2A202602672</footer>
+  <script src="/app.js"></script>
+</body>
+</html>

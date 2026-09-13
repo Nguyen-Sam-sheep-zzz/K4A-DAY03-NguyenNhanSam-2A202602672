@@ -54,6 +54,16 @@ python src/app.py --all
 > 
 > ⚠️ *Lưu ý:* Bài nộp chỉ chạy trên Mock Provider mà không kết nối LLM API thật sẽ bị trừ điểm phần nghiệm thu thực tế (Tiêu chí 2 & Tiêu chí 3 trong Rubric).
 
+### Giao diện web TalentFlow
+
+Sau khi cài dependencies và đã điền API key, chạy giao diện trực quan bằng PowerShell:
+
+```powershell
+python src/web_server.py
+```
+
+Mở `http://localhost:8000`. Giao diện sử dụng cùng Gemini Provider, MCP tools và ReAct loop của bài; API key chỉ được đọc ở backend, không gửi xuống trình duyệt.
+
 ---
 
 ## 🎯 2. BỨC TRANH TỔNG THỂ & MỤC TIÊU DÀI HẠN (NORTH STAR GOAL)
